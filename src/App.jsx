@@ -1,25 +1,49 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import Tab from '@material-ui/core/Tab';
+import {
+  TabContext,
+  TabList,
+  TabPanel
+ } from '@material-ui/lab/TabPanel'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+class JyankenGamePage extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {scores:[], status:{}}
+  }
+  ....
+  render() {
+    return (
+      <>
+        <Header>janken game</Header>
+        <JyankenBox onChange = {(hand) => this.handleChange(hand)} />
+        <TabView state = {this.state} />
+      </>
+    )
+  }
 }
 
+const TabView = props => {
+  const [scores, status] = props.state
+  const [value, setValue] = React.useState(0)
+  const handleChange = (event, newValue) => {
+    setValue(newValue)
+  }
+
+  return (
+    <TabContext value={value}>
+        <TabList onChange={handleChange}>
+          <Tab label="score" />
+          <Tab label="score" />
+        </TabList>
+      <TabPanel value = {0}>
+        <ScoreList scores = {scores} />
+      </TabPanel>
+      <TabPanel value = {1}>
+        <StatusBox status = {status} />
+      </TabPanel>
+    </TabContext>
+  )
+}
 export default App;
